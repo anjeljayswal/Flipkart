@@ -47,69 +47,40 @@ function PaymentModal() {
       })
     }
   }
-  // const isValidExpiryDate = (ExpirationDate) => {
-  //   // Check if the input matches the "MM/YY" format
-  //   const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-  //   if (!regex.test(ExpirationDate)) {
-  //     return false;
-  //   }
 
-  //   // Split the input into month and year parts
-  //   const [month, year] = ExpirationDate.split('/').map((str) => parseInt(str, 10));
+  const isValidExpiryDate = (ExpirationDate) => {
+    // Check if the input matches the "MM/YY" format
+    const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    if (!regex.test(ExpirationDate)) {
+      return false;
+    }
 
-  //   // Get the current date
-  //   const currentDate = new Date();
+    // Split the input into month and year parts
+    const [inputMonth, inputYear] = ExpirationDate.split('/').map((str) => parseInt(str, 10));
 
-  //   // Extract the current year and month
-  //   const currentYear = currentDate.getFullYear() % 100; // Extract the last two digits
-  //   const currentMonth = currentDate.getMonth() + 1; // January is 1, February is 2, etc.
+    // Get the current date
+    const currentDate = new Date();
 
-    // // Convert the month and year parts to numbers
-    // const inputMonth = parseInt(month, 10);
-    // const inputYear = parseInt(year, 10);
+    // Extract the current year and month
+    const currentYear = currentDate.getFullYear() % 100; // Extract the last two digits
+    const currentMonth = currentDate.getMonth() + 1; // January is 1, February is 2, etc.
 
-  //   // Check if the year is in the future, or if it's the current year and the month is in the future
-  //   if (inputYear < currentYear || (inputYear === currentYear && inputMonth < currentMonth)) {
-  //     return false;
-  //   }
+    // Check if the year is in the future, or if it's the current year and the month is in the future
+    if (inputYear < currentYear || (inputYear === currentYear && inputMonth < currentMonth)) {
+      return false;
+    }
 
-  //   // If all checks pass, the expiration date is valid
-  //   return true;
-  // };
+    // If all checks pass, the expiration date is valid
+    return true;
+  };
 
-//   const isValidExpiryDate = (ExpirationDate) => {
-//     // Check if the input matches the "MM/YY" format
-//     const regex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-//     if (!regex.test(ExpirationDate)) {
-//         return false;
-//     }
+  // function isValidExpiryDate(cardNumber) {
+  //   // Remove non-digit characters
+  //   const cleanedCardNumber = cardNumber.replace(/\D/g, '');
 
-//     // Split the input into month and year parts
-//     const [inputMonth, inputYear] = ExpirationDate.split('/').map((str) => parseInt(str, 10));
-
-//     // Get the current date
-//     const currentDate = new Date();
-
-//     // Extract the current year and month
-//     const currentYear = currentDate.getFullYear() % 100; // Extract the last two digits
-//     const currentMonth = currentDate.getMonth() + 1; // January is 1, February is 2, etc.
-
-//     // Check if the year is in the future, or if it's the current year and the month is in the future
-//     if (inputYear < currentYear || (inputYear === currentYear && inputMonth < currentMonth)) {
-//         return false;
-//     }
-
-//     // If all checks pass, the expiration date is valid
-//     return true;
-// };
-
-function isValidExpiryDate(cardNumber) {
-  // Remove non-digit characters
-  const cleanedCardNumber = cardNumber.replace(/\D/g, '');
-  
-  // Check if the cleaned card number is the correct length (for simplicity, we'll assume 13-19 digits)
-  return /^[0-9]{13,19}$/.test(cleanedCardNumber);
-}
+  //   // Check if the cleaned card number is the correct length (for simplicity, we'll assume 13-19 digits)
+  //   return /^[0-9]{13,19}$/.test(cleanedCardNumber);
+  // }
 
   const [paymentOption, setPaymentOption] = useState({
     upi: false,
@@ -232,7 +203,7 @@ function isValidExpiryDate(cardNumber) {
 
   function handlePlaceOrder(e) {
     // Check if the card number is valid
-    if (!isValidCardNumber(formValues.Card_Number)  ) {
+    if (!isValidCardNumber(formValues.Card_Number)) {
       // Show an error message for invalid card number
       setFieldErrors({
         ...fieldErrors,
@@ -286,6 +257,7 @@ function isValidExpiryDate(cardNumber) {
       setPaymentForm({ ...paymentform, form1: true });
     }
   }, [logindetails.isLogin]);
+  let isValid;
 
   return (
     <div className="paymentmodel">
@@ -494,40 +466,13 @@ function isValidExpiryDate(cardNumber) {
               className="PaymentmodelPayMentOption-hold-head"
               style={{ ...paymentMethodHeadStyle }}
             >
-              <span>2</span>
+              <span>1</span>
               <span>PAYMENT OPTIONS</span>
             </div>
             <div className="PaymentmodelPayMentOption-hold-details"
               style={{ ...paymentMethodDetailsStyle }}
             >
               <div className="Paymentoption-wrap">
-                {/* <div className="Paymentoption-input-holder-wrap">
-                  <div className="Paymentoption-input-holder">
-                    <input
-                      type={"radio"}
-                      name="paymentOption"
-                      value={"upi"}
-                      onChange={handlePaymenOptionOnChange}
-                    />
-                    <label>UPI</label>
-                  </div>
-                 {paymentOption.upi && <div className="paymentOption-Selected-radio">
-                    <label>Your UPI Id</label>
-                    <input />
-                    <button>Verify</button>
-                  </div>}
-                </div> */}
-                {/* <div className="Paymentoption-input-holder-wrap">
-                  <div className="Paymentoption-input-holder">
-                    <input
-                      type={"radio"}
-                      name="paymentOption"
-                      value={"wallets"}
-                      onChange={handlePaymenOptionOnChange}
-                    />
-                    <label>Wallets</label>
-                  </div>
-                </div> */}
                 <div className="Paymentoption-input-holder-wrap">
                   <div className="Paymentoption-input-holder">
                     <input
@@ -540,7 +485,7 @@ function isValidExpiryDate(cardNumber) {
                     {/* <p>Add and Secure your card as per RBI guidelines</p> */}
                   </div>
                   {paymentOption.card && <div className="paymentOption-Selected-radio">
-                    <label>Your CARD Number</label>
+                    <label>CARD Number</label>
                     <input
                       label="Credit Card Number"
                       variant="outlined"
@@ -567,7 +512,36 @@ function isValidExpiryDate(cardNumber) {
                           : ''
                       }
                       required
+                    /><label>Name In Card</label>
+                    <input
+                      name="ExpirationDate"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      type="text"
+                      placeholder="MM/YY" // You can use a placeholder for the format
+                      maxLength={5}
+                      onInput={(e) => {
+                        e.target.value = e.target.value
+                          .replace(/\D/g, "")   // Remove non-numeric characters
+                          .replace(/(\d{2})(\d{0,2})/, "$1/$2") // Format as MM/YY
+                          .substr(0, 5);         // Limit to 5 characters (MM/YY)
+
+                        isValid = isValidExpiryDate(e.target.value);
+                        if (!isValid) {
+                          e.target.setCustomValidity("Invalid expiration date (MM/YY)");
+                        } else {
+                          e.target.setCustomValidity("");
+                        }
+                      }}
+                      value={formValues.ExpirationDate}
+                      onChange={handleInputChange}
+                      onBlur={handleFormValuesChange}
+                      error={!isValidExpiryDate(formValues.ExpirationDate)}
+                      
+                      required
                     />
+
                     <label>Expiry Date</label>
                     <input
                       name="ExpirationDate"
@@ -576,43 +550,33 @@ function isValidExpiryDate(cardNumber) {
                       margin="normal"
                       type="text"
                       placeholder="MM/YY" // You can use a placeholder for the format
-                      inputProps={{
-                        maxLength: 5
-                      }}
-                      onInput={(e) => { e.target.value = e.target.value.replace(/[^0-9/]/g, '');}} // Allow only digits and slash
+                      maxLength={5}
+                      onInput={(e) => {
+                        e.target.value = e.target.value
+                          .replace(/\D/g, "")   // Remove non-numeric characters
+                          .replace(/(\d{2})(\d{0,2})/, "$1/$2") // Format as MM/YY
+                          .substr(0, 5);         // Limit to 5 characters (MM/YY)
 
-                      // onInput={(e) => { e.target.value = e.target.value.replace(/^(0[1-9]|1[0-2])\/\d{2}$/g, '') }}
+                        isValid = isValidExpiryDate(e.target.value);
+                        if (!isValid) {
+                          e.target.setCustomValidity("Invalid expiration date (MM/YY)");
+                        } else {
+                          e.target.setCustomValidity("");
+                        }
+                      }}
                       value={formValues.ExpirationDate}
                       onChange={handleInputChange}
                       onBlur={handleFormValuesChange}
                       error={!isValidExpiryDate(formValues.ExpirationDate)}
-                      helpertext={
-                        !isValidExpiryDate(formValues.ExpirationDate)
-                          ? 'Invalid expiration date (MM/YY)'
-                          : ''
-                      }
+                      
                       required
                     />
 
                   </div>}
                 </div>
-                {/*                 
-                <div className="Paymentoption-input-holder-wrap">
-                  <div className="Paymentoption-input-holder">
-                    <input
-                      type={"radio"}
-                      name="paymentOption"
-                      value={"netBank"}
-                      onChange={handlePaymenOptionOnChange}
-                    />
-                    <label>Net Banking</label>
-                    <p>
-                      This instrument has low success, use UPI or cards for
-                      better experience
-                    </p>
-                  </div>
-                </div> */}
-                <div className="Paymentoption-input-holder-wrap">
+
+
+                {/* <div className="Paymentoption-input-holder-wrap">
                   <div className="Paymentoption-input-holder">
                     <input
                       type={"radio"}
@@ -622,10 +586,10 @@ function isValidExpiryDate(cardNumber) {
                     />
                     <label>Cash on Delivery</label>
                   </div>
-                </div>
+                </div> */}
               </div>
 
-              {(paymentOption.upi || paymentOption.card || paymentOption.cash || paymentOption.netBank || paymentOption.wallets) && <div className="paymentoption-Continue">
+              {(paymentOption.card || paymentOption.cash) && <div className="paymentoption-Continue">
                 <button onClick={e => { handlePlaceOrder(e) }}>Confirm</button>
               </div>}
             </div>
