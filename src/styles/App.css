@@ -1323,7 +1323,36 @@ nav .more-dropdown .more-dropdown-details::before{
 }
 .paymentOption-Selected-radio{
     padding: 1rem 0 0 2rem;
+    
 }
+.payMentStyle {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the form horizontally */
+  }
+  
+  .payMentStyle label {
+    font-weight: bold;
+  }
+  
+  .payMentStyle input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .payMentStyle input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff; /* Change the border color on focus */
+  }
+  
+  .payMentStyle .error-message {
+    color: red;
+    font-size: 14px;
+  }
 
 .Paymentoption-wrap .Paymentoption-input-holder :nth-child(2),p{
     margin-left: 1rem;

@@ -19,11 +19,13 @@ function PaymentModal() {
 
   const [formValues, setFormValues] = useState({
     Card_Number: '',
-    ExpirationDate: ''
+    ExpirationDate: '',
+    Name_IN_Card:''
   });
   const [fieldErrors, setFieldErrors] = useState({
     Card_Number: false,
     ExpirationDate: false,
+    Name_IN_Card:''
 
   });
   const handleInputChange = (event) => {
@@ -481,11 +483,10 @@ function PaymentModal() {
                       value={"card"}
                       onChange={handlePaymenOptionOnChange}
                     />
-                    <label>Credit/ Debit / ATM Card</label>
-                    {/* <p>Add and Secure your card as per RBI guidelines</p> */}
+                    <label>Credit/ Debit / ATM Card</label>                    
                   </div>
                   {paymentOption.card && <div className="paymentOption-Selected-radio">
-                    <label>CARD Number</label>
+                    <div className="payMentStyle"><label>CARD Number</label>
                     <input
                       label="Credit Card Number"
                       variant="outlined"
@@ -512,32 +513,22 @@ function PaymentModal() {
                           : ''
                       }
                       required
-                    /><label>Name In Card</label>
+                    />
+                    <label>Name In Card</label>
                     <input
-                      name="ExpirationDate"
+                      name="Name_IN_Card"
                       variant="outlined"
                       fullWidth
                       margin="normal"
                       type="text"
-                      placeholder="MM/YY" // You can use a placeholder for the format
-                      maxLength={5}
-                      onInput={(e) => {
-                        e.target.value = e.target.value
-                          .replace(/\D/g, "")   // Remove non-numeric characters
-                          .replace(/(\d{2})(\d{0,2})/, "$1/$2") // Format as MM/YY
-                          .substr(0, 5);         // Limit to 5 characters (MM/YY)
-
-                        isValid = isValidExpiryDate(e.target.value);
-                        if (!isValid) {
-                          e.target.setCustomValidity("Invalid expiration date (MM/YY)");
-                        } else {
-                          e.target.setCustomValidity("");
-                        }
-                      }}
-                      value={formValues.ExpirationDate}
+                      placeholder="Name In Card" // You can use a placeholder for the format
+                      // maxLength={5}
+                      min={3}
+                      
+                      value={formValues.Name_IN_Card}
                       onChange={handleInputChange}
                       onBlur={handleFormValuesChange}
-                      error={!isValidExpiryDate(formValues.ExpirationDate)}
+                      error={!isValidExpiryDate(formValues.Name_IN_Card)}
                       
                       required
                     />
@@ -571,7 +562,7 @@ function PaymentModal() {
                       
                       required
                     />
-
+                  </div>
                   </div>}
                 </div>
 
